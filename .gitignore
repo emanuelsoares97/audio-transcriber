@@ -52,3 +52,5 @@ teste.py
 
 *.wav
 
+uploads/
+outputs/
