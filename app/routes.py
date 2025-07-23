@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, send_from_directory, Blueprint, current_app, send_file
+from flask import render_template, request, jsonify, send_from_directory, Blueprint, current_app, send_file, url_for
 import os
 import uuid
 
@@ -6,6 +6,7 @@ from app.services.audio_extractor import extract_audio
 from app.services.diarization import diarize, filter_minimum_segments, merge_consecutive_segments
 from app.services.transcription import transcribe_segments
 from app.services.text_json import save_json_to_file
+from app.services.text_pdf import export_segments_to_pdf
 
 bp = Blueprint('main', __name__)
 
@@ -69,7 +70,7 @@ def process():
 
 
 
-@bp.route('/outputs/<path:filename>')
+@bp.route('/outputs/<path:filename>', methods=['POST'])
 def download_output(filename):
     folder = current_app.config["OUTPUT_FOLDER"]
 
@@ -77,4 +78,19 @@ def download_output(filename):
     if not os.path.exists(file_path):
         return "NÃO EXISTE", 404
     return send_file(file_path, as_attachment=True)
+
+
+
+@bp.route('/api/export/pdf', methods=['POST'])
+def export_pdf_endpoint():
+    data = request.json
+    segments = data.get("segments")
+    if not segments:
+        return jsonify({"error": "Sem segmentos de transcrição."}), 400
+
+    filename = f"{uuid.uuid4().hex}_transcript.pdf"
+    output_folder = current_app.config["OUTPUT_FOLDER"]
+    pdf_path = os.path.join(output_folder, filename)
+    export_segments_to_pdf(segments, pdf_path)
+    return jsonify({"pdf_url": url_for('.download_output', filename=filename)}), 200
 
