@@ -31,3 +31,31 @@ def diarize(audio_path, hf_token, num_speakers=None):
             "speaker": speaker
         })
     return segments
+
+def filter_minimum_segments(segments, min_duration=1.0):
+    """
+    Remove segmentos abaixo de uma duração mínima (em segundos).
+    """
+    return [seg for seg in segments if seg['end'] - seg['start'] >= min_duration]
+
+
+def merge_consecutive_segments(segments, max_gap=0.5):
+    """
+    Junta segmentos consecutivos do mesmo locutor separados por menos do que max_gap segundos.
+    """
+    if not segments:
+        return []
+    merged = [segments[0]]
+    for seg in segments[1:]:
+        last = merged[-1]
+        # Mesma pessoa e gap pequeno: funde
+        if seg['speaker'] == last['speaker'] and seg['start'] - last['end'] <= max_gap:
+            merged[-1] = {
+                'start': last['start'],
+                'end': seg['end'],
+                'speaker': last['speaker']
+            }
+        else:
+            merged.append(seg)
+    return merged
+
