@@ -1,8 +1,7 @@
 from moviepy import VideoFileClip, AudioFileClip
 import os
 
-def extract_audio(input_path, output_path=None, output_format="wav"):
-    #valida o tipo de ficheiro
+def extract_audio(input_path, output_path=None, output_format="wav", uploads_folder="uploads"):
     ext = os.path.splitext(input_path)[1].lower()
     if ext in ['.mp4', '.avi', '.mov', '.mkv']:
         video = VideoFileClip(input_path)
@@ -14,10 +13,7 @@ def extract_audio(input_path, output_path=None, output_format="wav"):
 
     if not output_path:
         base = os.path.splitext(os.path.basename(input_path))[0]
-        output_path = f"{base}_extracted.{output_format}"
-
-    #exporta no formado desejado
+        output_path = os.path.join(uploads_folder, f"{base}_extracted.{output_format}")
 
     audio.write_audiofile(output_path)
-
     return output_path

@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Início | Transcrição{% endblock %}
+
+{% block content %}
+  <form id="uploadForm">
+    <label for="fileInput">Escolha um ficheiro áudio:</label>
+    <input type="file" id="fileInput" name="file" accept="audio/*" required>
+    <button type="submit">Enviar</button>
+  </form>
+  <div id="status"></div>
+  <div id="result"></div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/process.js') }}"></script>
+{% endblock %}

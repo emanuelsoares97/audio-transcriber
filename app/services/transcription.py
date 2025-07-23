@@ -4,9 +4,31 @@ import tempfile
 import os
 
 # Carregar modelo Whisper
-model = whisper.load_model("large") # ou medium/large, etc
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        import whisper
+        model = whisper.load_model("large")
+    return model
+
 
 def transcribe_segments(audio_path, segments, language='pt'):
+    """
+    Transcreve segmentos de áudio utilizando o modelo Whisper.
+
+    Args:
+        audio_path (str): Caminho para o ficheiro de áudio.
+        segments (list): Lista de segmentos a serem transcritos.
+        language (str): Idioma da transcrição.
+
+    Returns:
+        list: Resultados da transcrição.
+    """
+    
+    model = get_model()
+
     audio = AudioSegment.from_wav(audio_path)
     results = []
     for seg in segments:
