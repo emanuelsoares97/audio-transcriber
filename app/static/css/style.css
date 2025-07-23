@@ -1,20 +1,42 @@
-body { 
-    font-family: Arial, sans-serif; 
+body {
+    background: linear-gradient(135deg, #e0f2ff 0%, #bfeaff 100%);
+    min-height: 100vh;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
-header, footer { 
-    background: #f1f1f1; padding: 1em;
+.centered-card {
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 4px 18px rgba(48,134,255,0.08);
+    padding: 2.5rem 2rem;
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 5vh;
 }
-form { 
-    margin-top: 2em; 
+h1, h2 {
+    color: #317ae1;
 }
-#status { 
-    margin-top: 1em; 
-    color: navy; 
+.btn-primary {
+    background-color: #4fa4f7;
+    border: none;
 }
-#result ul { 
-    list-style-type: none; 
-    padding: 0; 
+.btn-primary:hover {
+    background-color: #317ae1;
 }
-#result li { 
-    margin-bottom: 8px; 
+.custom-label {
+    color: #317ae1;
+    font-weight: 500;
+}
+/* Form fields nice spacing */
+.form-control:focus {
+    border-color: #60c7ff;
+    box-shadow: 0 0 0 0.10rem #60c7ff40;
+}
+
+footer{
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #f8f9fa;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }

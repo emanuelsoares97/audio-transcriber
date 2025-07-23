@@ -16,7 +16,7 @@ async function startProcessing(file_path, status) {
   }
   html += "</ul>";
   if(data.output_json){
-    html += `<a href="${data.output_json}" download>Download JSON</a>`;
+    html += `<a href="${data.output_json}" download> Download JSON</a>`;
   }
   resultDiv.innerHTML = html;
 }

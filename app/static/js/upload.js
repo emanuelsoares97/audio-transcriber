@@ -1,18 +1,25 @@
-document.getElementById('uploadForm').onsubmit = async function(e) {
-  e.preventDefault();
-  const status = document.getElementById('status');
-  status.textContent = "A carregar ficheiro...";
-  const file = document.getElementById('fileInput').files[0];
-  if (!file) return status.textContent = "Selecione um ficheiro.";
+document.getElementById('upload-form').onsubmit = async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const file = form['audio-file'].files[0];
+    if (!file) return;
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '<div class="text-center text-info">Processando, aguarde...</div>';
+    const data = new FormData();
+    data.append('file', file);
+    let resp = await fetch('/api/upload', {method: 'POST', body: data});
+    let json = await resp.json();
+    if (json.error) {
+        resultDiv.innerHTML = `<div class="alert alert-danger">${json.error}</div>`;
+        return;
+    }
+    resultDiv.innerHTML = `<div class="alert alert-success">Upload realizado com sucesso! A processar...</div>`;
 
-  const formData = new FormData();
-  formData.append('file', file);
+     if (json.file_path) {
+        startProcessing(json.file_path, resultDiv);
+    } else {
+        resultDiv.innerHTML += `<div class="alert alert-warning">Ficheiro não processável!</div>`;
 
-  let resp = await fetch('/api/upload', { method: 'POST', body: formData });
-  let data = await resp.json();
-  if (!resp.ok) { status.textContent = "Erro: " + data.error; return; }
-  status.textContent = "Ficheiro carregado. A processar...";
+    }
 
-  // Chama process.js para continuar processamento:
-  startProcessing(data.file_path, status);
 };
