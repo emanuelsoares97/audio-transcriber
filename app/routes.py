@@ -45,7 +45,11 @@ def process():
         num_speakers = int(data.get('num_speakers', 2))
         language = data.get('language', "pt")
 
-        audio_wav_path = extract_audio(file_path)
+        audio_wav_path = extract_audio(
+    file_path,
+    uploads_folder=current_app.config["UPLOAD_FOLDER"]
+)
+
         segments = diarize(audio_wav_path, hf_token, num_speakers=num_speakers)
         segments = filter_minimum_segments(segments, min_duration=1.0)
         segments = merge_consecutive_segments(segments, max_gap=0.5)
@@ -59,15 +63,17 @@ def process():
             "output_json": f"/outputs/{rel_json_path}"
         }), 200
     except Exception as e:
+        import traceback
+        print(traceback.format_exc())
         return jsonify({"error": str(e)}), 500
+
 
 
 @bp.route('/outputs/<path:filename>')
 def download_output(filename):
     folder = current_app.config["OUTPUT_FOLDER"]
-    # Normaliza o separador para o SO
+
     file_path = os.path.join(folder, filename.replace("/", os.sep).replace("\\", os.sep))
-    print("DEBUG file_path:", file_path)
     if not os.path.exists(file_path):
         return "NÃO EXISTE", 404
     return send_file(file_path, as_attachment=True)

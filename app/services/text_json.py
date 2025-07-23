@@ -2,7 +2,7 @@ import json
 import os
 import uuid
 
-def save_json_to_file(data, outdir="outputs"):
+def save_json_to_file(data, outdir=None):
     """
     Guarda uma lista (ou dict) em ficheiro JSON no diretório especificado.
     Retorna o caminho do ficheiro criado.
