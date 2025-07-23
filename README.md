@@ -10,7 +10,6 @@ Aplicação web para transcrição automática de áudio com separação por loc
 - Transcrição automática com Whisper large (alta qualidade)
 - Diarização: organiza por locutor
 - Exportação dos resultados em JSON e PDF
-- Limpeza automática de ficheiros após 1 hora
 
 ---
 
@@ -81,7 +80,6 @@ A aplicação ficará disponível em `http://127.0.0.1:5000`
 - Faz upload do ficheiro de áudio ou vídeo
 - Após o processamento, os resultados são apresentados por locutor
 - É possível fazer download dos resultados em JSON e PDF
-- Os ficheiros são automaticamente apagados após 1 hora
 
 ---
 

@@ -40,3 +40,7 @@ footer{
     bottom: 0;
     width: 100%;
 }
+
+btn btn-danger mt-4 {
+    text-align: center;
+}

@@ -11,13 +11,19 @@
                     <input class="form-control" type="file" id="audio-file" name="audio-file" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Enviar e Transcrever</button>
+                            <button id="btn-limpar" class="btn btn-danger mt-4">Limpar uploads/outputs</button>
+<div id="limpar-status" class="mt-2"></div>
             </form>
             <div id="result" class="mt-4"></div>
         </div>
+
+
     </div>
+
 {% endblock %}
 
 {% block scripts %}
   <script src="{{ url_for('static', filename='js/process.js') }}"></script>
   <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/clean_folder.js') }}"></script>
 {% endblock %}

@@ -94,3 +94,20 @@ def export_pdf_endpoint():
     export_segments_to_pdf(segments, pdf_path)
     return jsonify({"pdf_url": url_for('.download_output', filename=filename)}), 200
 
+@bp.route('/clean', methods=['POST'])
+def limpar_uploads_outputs():
+    folders = [
+        current_app.config["UPLOAD_FOLDER"],
+        current_app.config["OUTPUT_FOLDER"]
+    ]
+    deleted = []
+    for folder in folders:
+        for fname in os.listdir(folder):
+            fpath = os.path.join(folder, fname)
+            if os.path.isfile(fpath):
+                try:
+                    os.remove(fpath)
+                    deleted.append(fpath)
+                except Exception as e:
+                    print(f"Erro ao apagar {fpath}: {e}")
+    return jsonify({"mensagem": "Limpeza feita", "apagados": deleted}), 200
