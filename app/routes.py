@@ -70,7 +70,7 @@ def process():
 
 
 
-@bp.route('/outputs/<path:filename>', methods=['POST'])
+@bp.route('/outputs/<path:filename>', methods=['GET'])
 def download_output(filename):
     folder = current_app.config["OUTPUT_FOLDER"]
 
@@ -81,7 +81,7 @@ def download_output(filename):
 
 
 
-@bp.route('/api/export/pdf', methods=['POST'])
+@bp.route('/api/export/pdf', methods=['GET'])
 def export_pdf_endpoint():
     data = request.json
     segments = data.get("segments")
