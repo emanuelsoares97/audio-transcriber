@@ -46,6 +46,9 @@ instance/
 
 notas.txt
 
-teste.mp3
+*.mp3
 
 teste.py
+
+*.wav
+
