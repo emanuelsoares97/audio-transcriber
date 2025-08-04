@@ -4,15 +4,11 @@ import torch
 
 def diarize(audio_path, hf_token, num_speakers=None):
     """
-    Executa a diarização num ficheiro de áudio e retorna os resultados.
-
+    Perform speaker diarization on an audio file.
     Args:
-        audio_path (str): Caminho para o ficheiro de áudio mono (16kHz).
-        hf_token (str): Access token do HuggingFace.
-        num_speakers (int, opcional): Se souber quantos locutores há.
-
-    Returns:
-        list of dict: Lista com início, fim e label do locutor para cada segmento.
+        audio_path (str): Path to the audio file.
+        hf_token (str): Hugging Face token for authentication.
+        num_speakers (int, optional): Number of speakers to diarize. If None, the model will try to detect it automatically.
     """
     pipeline = Pipeline.from_pretrained(
         "pyannote/speaker-diarization-3.1",
@@ -34,14 +30,14 @@ def diarize(audio_path, hf_token, num_speakers=None):
 
 def filter_minimum_segments(segments, min_duration=1.0):
     """
-    Remove segmentos abaixo de uma duração mínima (em segundos).
+    Filter out segments shorter than the specified minimum duration.
     """
     return [seg for seg in segments if seg['end'] - seg['start'] >= min_duration]
 
 
 def merge_consecutive_segments(segments, max_gap=0.5):
     """
-    Junta segmentos consecutivos do mesmo locutor separados por menos do que max_gap segundos.
+    Merge consecutive segments of the same speaker that are separated by a gap smaller than max_gap seconds.
     """
     if not segments:
         return []

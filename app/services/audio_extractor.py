@@ -2,6 +2,13 @@ from moviepy import VideoFileClip, AudioFileClip
 import os
 
 def extract_audio(input_path, output_path=None, output_format="wav", uploads_folder=None):
+    """Extract audio from a video or audio file and save it in the specified format.
+    Args:
+        input_path (str): Path to the input video or audio file.
+        output_path (str, optional): Path to save the extracted audio file. If None, it will be saved in the uploads folder.
+        output_format (str): Format of the output audio file (default is "wav").
+        uploads_folder (str, optional): Folder where the extracted audio will be saved if output_path is not specified.
+    """
     ext = os.path.splitext(input_path)[1].lower()
     if ext in ['.mp4', '.avi', '.mov', '.mkv']:
         video = VideoFileClip(input_path)

@@ -4,8 +4,8 @@ import uuid
 
 def save_json_to_file(data, outdir=None):
     """
-    Guarda uma lista (ou dict) em ficheiro JSON no diretório especificado.
-    Retorna o caminho do ficheiro criado.
+    Save a dictionary to a JSON file in the specified directory.
+    If no directory is specified, it uses the current working directory.
     """
     filename = f"{uuid.uuid4().hex}_transcript.json"
     outpath = os.path.join(outdir, filename)

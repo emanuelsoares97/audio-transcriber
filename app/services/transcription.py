@@ -7,6 +7,7 @@ import os
 model = None
 
 def get_model():
+    """Lazy load Whisper model."""
     global model
     if model is None:
         import whisper

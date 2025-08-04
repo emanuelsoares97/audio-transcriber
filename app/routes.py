@@ -18,6 +18,10 @@ def index():
 # Upload endpoint 
 @bp.route("/api/upload", methods=["POST"])
 def upload():
+    """Endpoint to upload audio or video files.
+    Returns:
+        JSON response with the file path or an error message.
+     """
     try:
         if 'file' not in request.files:
             return jsonify({"error": "Nenhum ficheiro enviado"}), 400
@@ -37,6 +41,9 @@ def upload():
 # Process endpoint 
 @bp.route("/api/process", methods=["POST"])
 def process():
+    """Endpoint to process the uploaded audio file.
+    It performs diarization and transcription, and returns the results in JSON format.
+    """
     try:
         data = request.get_json()
         if not data or 'file_path' not in data:
@@ -72,6 +79,10 @@ def process():
 
 @bp.route('/outputs/<path:filename>', methods=['GET'])
 def download_output(filename):
+    """Endpoint to download output files.
+    Args:
+        filename (str): The name of the file to download.
+    """
     folder = current_app.config["OUTPUT_FOLDER"]
 
     file_path = os.path.join(folder, filename.replace("/", os.sep).replace("\\", os.sep))
@@ -83,6 +94,8 @@ def download_output(filename):
 
 @bp.route('/api/export/pdf', methods=['GET'])
 def export_pdf_endpoint():
+    """Endpoint to export transcription segments to a PDF file.
+    Expects a JSON body with a list of segments."""
     data = request.json
     segments = data.get("segments")
     if not segments:
@@ -96,6 +109,7 @@ def export_pdf_endpoint():
 
 @bp.route('/clean', methods=['POST'])
 def limpar_uploads_outputs():
+    """Endpoint to clean up uploaded and output files."""
     folders = [
         current_app.config["UPLOAD_FOLDER"],
         current_app.config["OUTPUT_FOLDER"]
